@@ -1,0 +1,70 @@
+[tool.poetry]
+name = "pytorch_playground"
+version = "0.0.1"
+description = "PyTorch Experimentation"
+# license = ""
+authors = ["Nick DiNapoli <nick.dinapoli@vizgen.com>"]
+maintainers = ["Nick DiNapoli <nick.dinapoli@vizgen.com>"]
+readme = "README.md"
+# homepage = ""
+repository = "https://github.com/NickDiNapoli/pytorch-playground"
+# documentation = ""
+# keywords = ""
+classifiers = [
+    "Natural Language :: English",
+    "Topic :: Scientific/Engineering :: Bio-Informatics",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+]
+packages = [{ include = "pytorch_playground", from = "src" }]
+
+[tool.poetry.dependencies]
+python = ">=3.9,<=3.11.3"
+
+
+[tool.poetry.group.dev.dependencies]
+pytest = "^7.2.0"
+pytest-cov = "^4.0.0"
+flake8 = "^6.0.0"
+black = "^23.1.0"
+isort = "^5.12.0"
+mypy = "^1.0.0"
+numpy = "1.26.2"
+matplotlib = "3.8.2"
+opencv-python = "4.8.1.78"
+scikit-image = "0.22.0"
+torch = "2.1.1"
+torchvision = "0.16.1"
+
+
+[tool.poetry.group.deploy.dependencies]
+python-semantic-release = "^7.32.2"
+
+
+[[tool.poetry.source]]
+name = "jfrog-download"
+url = "https://vzartifactory.jfrog.io/artifactory/api/pypi/default-pypi/simple"
+default = false
+secondary = true
+
+[[tool.poetry.source]]
+name = "jfrog"
+url = "https://vzartifactory.jfrog.io/artifactory/api/pypi/default-pypi/"
+default = false
+secondary = true
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.semantic_release]
+version_variable = "pyproject.toml:version"
+branch = "develop"
+changelog_file = "CHANGELOG.md"
+build_command = "poetry build"
+dist_path = "dist/"
+upload_to_release = true
+upload_to_pypi = false
+remove_dist = false
+patch_without_tag = true
+major_on_zero = true
