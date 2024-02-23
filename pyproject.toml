@@ -37,6 +37,8 @@ scikit-learn = "*"
 scikit-image = "0.22.0"
 torch = "2.1.1"
 torchvision = "0.16.1"
+torchmetrics = "*"
+mlxtend = "^0.22.0"
 
 
 [tool.poetry.group.deploy.dependencies]
