@@ -12,7 +12,8 @@ def create_dataloaders(
     batch_size: int, 
     num_workers: int=NUM_WORKERS
 ):
-    """Creates training and testing DataLoaders.
+    """
+    Creates training and testing DataLoaders.
 
     Takes in a training directory and testing directory path and turns
     them into PyTorch Datasets and then into PyTorch DataLoaders.
