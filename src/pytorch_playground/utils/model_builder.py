@@ -52,3 +52,4 @@ class TinyVGG(nn.Module):
         return x
         # could do this:
         # return self.classifier(self.conv_block_2(self.conv_block_1(x))) 
+    
