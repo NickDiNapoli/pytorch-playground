@@ -6,7 +6,7 @@ from tqdm.auto import tqdm
 
 
 def train_model(model: torch.nn.Module,
-                train_data_loader: torch.utils.data.DataLoader,
+                train_dataloader: torch.utils.data.DataLoader,
                 loss_fn: torch.nn.Module,
                 optimizer: torch.optim.Optimizer,
                 device: torch.device) -> Tuple[float, float]:
@@ -37,7 +37,7 @@ def train_model(model: torch.nn.Module,
     train_acc = 0
     model.to(device)
 
-    for batch, (X, y) in enumerate(train_data_loader):
+    for batch, (X, y) in enumerate(train_dataloader):
         # send data to GPU
         X, y = X.to(device), y.to(device)
     
@@ -52,13 +52,13 @@ def train_model(model: torch.nn.Module,
         y_pred_class = torch.argmax(torch.softmax(y_pred, dim=1), dim=1)
         train_acc += (y_pred_class== y).sum().item()/len(y_pred)
 
-    train_loss /= len(train_data_loader)
-    train_acc /= len(train_data_loader)
+    train_loss /= len(train_dataloader)
+    train_acc /= len(train_dataloader)
     return train_loss, train_acc
 
 
 def test_model(model: torch.nn.Module,
-               test_data_loader: torch.utils.data.DataLoader,
+               test_dataloader: torch.utils.data.DataLoader,
                loss_fn: torch.nn.Module,
                device: torch.device) -> Tuple[float, float]:
     """Tests a PyTorch model for a single epoch.
@@ -86,21 +86,21 @@ def test_model(model: torch.nn.Module,
     model.to(device)
 
     with torch.inference_mode():
-        for X, y in test_data_loader:
+        for X, y in test_dataloader:
             # send data to GPU
             X, y = X.to(device), y.to(device)
             
             test_pred = model(X)
 
-            loss += loss_fn(test_pred, y)
+            loss = loss_fn(test_pred, y)
             test_loss += loss.item()
 
             test_pred_labels = test_pred.argmax(dim=1)
             test_acc += ((test_pred_labels == y).sum().item()/len(test_pred_labels))
         
     # per batch
-    test_loss /= len(test_data_loader)
-    test_acc /= len(test_data_loader)
+    test_loss /= len(test_dataloader)
+    test_acc /= len(test_dataloader)
     return test_loss, test_acc
 
 
@@ -153,12 +153,12 @@ def train(model: torch.nn.Module,
     # Loop through training and testing steps for a number of epochs
     for epoch in tqdm(range(epochs)):
         train_loss, train_acc = train_model(model=model,
-                                            dataloader=train_dataloader,
+                                            train_dataloader=train_dataloader,
                                             loss_fn=loss_fn,
                                             optimizer=optimizer,
                                             device=device)
         test_loss, test_acc = test_model(model=model,
-                                         dataloader=test_dataloader,
+                                         test_dataloader=test_dataloader,
                                          loss_fn=loss_fn,
                                          device=device)
 
